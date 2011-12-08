@@ -28,12 +28,20 @@ $(function() {
 </head>
 <body>
 
-<p>Suggesties</p>
+<p><a href="mail.php">Suggesties</a></p>
 
 <ul>
-<?php foreach($family as $member): ?> 
-	<li rel="<?php echo $member->id; ?>"><?php echo $member->name; ?> - suggesties <a href="#" class="ask">vragen</a> voor of <a href="#" class="show">tonen</a> van deze persoon</li>
-<?php endforeach; ?>
-</ul>
+
+<table>
+	<?php foreach($family as $member): ?> 
+	<tr>
+		<td><?php echo $member->id; ?></td>
+		<td><?php echo $member->name; ?></td>
+		<td><a href="mail.php?sleutel=<?php echo $member->key; ?>"><?php echo $member->key; ?></a></td>
+		<td><?php echo $member->suggestions; ?></td>
+	<tr>
+	<?php endforeach; ?>
+<table>
+
 </body>
 </html>
