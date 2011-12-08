@@ -1,6 +1,11 @@
 <?php
 
 require_once('settings.php');
+require_once('rb.php');
+
+R::setup();
+
+$family = R::find('family');
 
 ?>
 
@@ -14,8 +19,8 @@ require_once('settings.php');
 <p>Suggesties</p>
 
 <ul>
-<?php foreach($family as $name => $email): ?> 
-	<li><?php echo $name; ?> with password <?php echo generatePassword(4, 1) ?> </li>
+<?php foreach($family as $member): ?> 
+	<li><?php echo $member->name; ?> - suggesties <a href="#"> vragen</a> of <a href="#">tonen</a></li>
 <?php endforeach; ?>
 </ul>
 </body>

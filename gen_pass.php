@@ -33,29 +33,36 @@ function generatePassword($length=9, $strength=0) {
 	return $password;
 }
 
-function mailAndStorePasswords() {
+function mailAndStorePasswords($member, $email) {
 
 	$password = generatePassword(4, 1);
-
-	$bean = R::dispense('family');
-	$bean->name = 'Sander Versluys';
-	$bean->email = 'versluyssander@gmail.com';
+	
+	$bean = R::findOne('family', 'name=?', array($member));	
+	
+	if (!$bean) {
+		$bean = R::dispense('family');
+	}
+	$bean->name = $member;
+	$bean->email = $email;
 	$bean->hash = sha1($password);
 	$bean->suggestions = '';
 
 	$id = R::store($bean);
 			
-	$to      = 'versluyssander@gmail.com';
+	$to      = $email;
 	$subject = 'Kerst suggesties';
 	$message = 'Je kan suggesties vragen en bekijken op niob.be/kerst met password "' . $password . '"';
 	$headers = 'From: kerst@niob.be' . "\r\n" .
 		'Reply-To: kerst@niob.be' . "\r\n" .
 		'X-Mailer: PHP/' . phpversion();
 	
-	mail($to, $subject, $message, $headers);
+	//mail($to, $subject, $message, $headers);
 	
 }
 
 R::setup(); 
 
-mailAndStorePasswords();
+foreach($family as $member => $email) {
+	mailAndStorePasswords($member, $email);
+}
+
