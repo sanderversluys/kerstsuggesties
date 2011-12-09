@@ -56,7 +56,7 @@ function mailAndStorePasswords($member, $email) {
 		'Reply-To: kerst@niob.be' . "\r\n" .
 		'X-Mailer: PHP/' . phpversion();
 	
-	$to = "versluyssander@gmail.com";
+	//$to = "versluyssander@gmail.com";
 	
 	mail($to, $subject, $message, $headers);
 	
