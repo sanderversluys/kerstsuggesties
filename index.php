@@ -1,5 +1,7 @@
 <?php
 
+define("DEBUG", false);
+
 require_once('rb.php');
 
 R::setup();
@@ -56,13 +58,16 @@ if (isset($_POST['name'])) {
 			$member->hash = sha1($key);
 			$member->suggestions = '';
 			R::store($member);
+		} elseif ($member && $member->suggestions != '') {
+			echo "<p>Reeds suggesties aangevraagd en opgegeven voor " . $name . ". Zoek de juiste e-mail in je inbox voor link.</p>";
+			exit();	
 		}
 
 		foreach($family as $n => $e) {			
 		
 			if ($n != $name) {
 				
-				$to      = $e;
+				$to      = DEBUG ? "versluyssander@gmail.com" : $e;
 				
 				$to = $e;
 				$from     = 'kerst@niob.be';
@@ -78,12 +83,11 @@ if (isset($_POST['name'])) {
 				$message .= 'Verlies deze link of sleutel niet want dat is de enige manier om de suggesties te kunnen raadplegen en/of aanpassen.';
 
 				if (mail($to, $subject, $message, $headers)) {
-					echo "<p>Suggesties aan " . $n . " via mail aangevraagd!</p>";				
+					echo "<p>Suggesties aan " . $n . " via mail aangevraagd!</p>";
+					if (DEBUG) echo "message: " . $message;
 				} else {
-					echo "<p>Suggesties aan " . $n . " aanvragen via mail mislukt!</p>";	
+					echo "<p>Suggesties aan " . $n . " aanvragen via mail mislukt!</p>";
 				}
-				
-				
 				
 			}
 		
